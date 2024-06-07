@@ -1,0 +1,43 @@
+from tkinter import *
+from tkinter import ttk
+import sqlite3
+
+main = Tk()
+main.geometry("1200x850")
+main.title("Сторожко Вікторія, Прикладна лінгвістика, лабораторна робота 3")
+
+#1
+tabs = ttk.Notebook(main)
+tab1 = ttk.Frame(tabs, width=1200, height=800)
+tab2 = ttk.Frame(tabs, width=1200, height=800)
+tabs.add(tab1, text='словник')
+tabs.add(tab2, text='про авторку')
+tabs.grid()
+
+#combobox
+cb_categories = ttk.Combobox(tab1)
+cb_categories.configure(font=("STIX, 11"), values=["body", "emote","health","build", "comm"])
+cb_categories.place(relx=0.5, rely=0)
+
+#table
+conn = sqlite3.connect(r"C:\Users\bodoa\PycharmProjects\pythonProject6\dictionary.db")
+curs = conn.cursor()
+curs.execute("SELECT * from vocab Order by danish")
+word_list = []
+
+for i in range(50):
+    word_list.append(curs.fetchone())
+    for j in range(8):
+        e = Entry(tab1, width=11)
+        e.insert(0, word_list[i][j])
+        e.grid(row=i, column=j)
+
+#2
+label_name = Label(tab2, font=("Lexend", 16, "italic"), text = "Роботу виконала студентка 4 курсу "
+                                                            "спеціальності Прикладна (комп'ютерна) лінгвістика та англійська мова "
+                                                            "Сторожко Вікторія Вячеславівна ",
+                   wraplength=500, justify="left")
+label_name.place(relx=0.3, rely=0.3, anchor=CENTER)
+
+
+main.mainloop()
