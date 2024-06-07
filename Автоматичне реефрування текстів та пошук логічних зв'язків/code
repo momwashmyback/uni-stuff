@@ -1,0 +1,65 @@
+import nltk
+from nltk import word_tokenize, sent_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer
+from nltk.corpus import wordnet as wn
+
+name = 'Сторожко Вікторія, 1-ша група, Лабораторна робота №2'
+print(name)
+
+def freq_table(text_string) -> dict:
+    stopWords = set(stopwords.words("english"))
+    words = word_tokenize(text_string)
+    ps = PorterStemmer()
+    freqTable = dict()
+    for word in words:
+        word = ps.stem(word)
+        if word in stopWords:
+            continue
+        if word in freqTable:
+            freqTable[word] += 1
+        else:
+            freqTable[word] = 1
+    return freqTable  # Corrected indentation
+
+my_file = open("psychology.txt", "r", encoding='utf-8')
+test_text = my_file.read()
+my_file.close()
+
+def score_sentences(sentences, freqTable) -> dict:
+    sent_value = dict()
+    for sent in sentences:
+        word_count_in_sentence = len(word_tokenize(sent))
+        sent_value[sent] = 0  # Initialize the score for the sentence
+        for word in freqTable:
+            if word in sent.lower():
+                sent_value[sent] += freqTable[word]
+        sent_value[sent] = sent_value[sent] / word_count_in_sentence  # Normalize the score
+    return sent_value
+
+ft = freq_table(test_text)
+s = sent_tokenize(test_text)
+sv = score_sentences(s, ft)
+
+def avg_score(sentValue) -> float:
+    sumValues = sum(sentValue.values())
+    average = sumValues / len(sentValue)
+    return average
+
+avg = avg_score(sv)
+print("поріг тексту: ", avg)
+
+def summary(sentences, sentValue, threshold):
+    sentence_count = 0
+    summary = ''
+    for sent in sentences:
+        if sent in sentValue and sentValue[sent] > threshold:
+            summary += " " + sent
+            sentence_count += 1
+    return summary
+
+summ = summary(s, sv, avg)
+print("реферат: ", summ)
+
+print("include-1 entailments: ")
+print(wn.synset('include.v.01').entailments())
