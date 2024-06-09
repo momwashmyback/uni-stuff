@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сторожко Вікторія</title>
+    <style>
+        body {
+            font-family: 'Calibri', sans-serif;
+            color: #333;
+        }
+        .code-font {
+            font-family: 'Consolas', monospace;
+            color: #990000;
+        }
+        .emphasis {
+            font-style: italic;
+            color: #0066cc;
+        }
+        img {
+            width: 400px; /* нова ширина */
+            height: 300px; /* нова висота, забезпечуючи пропорції 4:3 */
+        }
+    </style>
+</head>
+<body>
+
+    <p> Дослідження параметрів чоловічого і жіночого спонтанного мовлення в різних емоційних станах є важливим кроком для розуміння взаємозв'язку між мовленням та емоціями. Перше, що слід врахувати, - це обрання різних емоційних станів, таких як радість, гнів, сум тощо, та визначення параметрів мовлення для їх аналізу.</p>
+
+    <p class="emphasis"> Важливими параметрами для вивчення є темп мовлення, інтонація, обсяг лексики та паузи, які можуть змінюватися в залежності від емоційного стану. Методи дослідження можуть включати аудіо- або відеозапис мовлення учасників в різних сценаріях та лінгвістичний аналіз з використанням програмних засобів.</p>
+
+    <p> Додатково, розподіл учасників за статевою приналежністю та віком дозволяє дослідити вплив гендерних та вікових різниць на параметри мовлення в різних емоційних станах. Статистичний аналіз результатів може підтвердити або спростувати гіпотези та виявити особливості взаємозв'язку між мовленням та емоціями.</p>
+
+    <p>Додаткова інформація про спонтанне мовлення може бути знайдена в <a href=" https://vseosvita.ua/library/embed/0100c5h3-470f.docx.html" target="_blank">довідкових джерелах</a> та <a href=" https://uk.wikipedia.org/wiki/%D0%A3%D1%81%D0%BD%D0%B5_%D0%BC%D0%BE%D0%B2%D0%BB%D0%B5%D0%BD%D0%BD%D1%8F" target="_blank">енциклопедіях</a>.</p>
+
+    <img src="C:\Users\bodoa\OneDrive\Изображения" alt="meme">
+
+
+<table>
+    <tr>
+        <th>Граматичні значення</th>
+        <th>Теперішній час</th>
+        <th>Майбутній час</th>
+    </tr>
+    <tr>
+        <td>1 особа однина</td>
+        <td>jeg <em>flyver</em></td>
+        <td>jeg <em>vil flyve</em></td>
+    </tr>
+    <tr>
+        <td>2 особа однина</td>
+        <td>du <em>flyver</em></td>
+        <td>du <em>vil flyve</em></td>
+    </tr>
+    <tr>
+        <td>3 особа однина</td>
+        <td>han/hun/det <em>flyver</em></td>
+        <td>han/hun/det <em>vil flyve</em></td>
+    </tr>
+    <tr>
+        <td>1 особа множина</td>
+        <td>vi <em>flyver</em></td>
+        <td>vi <em>vil flyve</em></td>
+    </tr>
+    <tr>
+        <td>2 особа множина</td>
+        <td>I <em>flyver</em></td>
+        <td>I <em>vil flyve</em></td>
+    </tr>
+    <tr>
+        <td>3 особа множина</td>
+        <td>de <em>flyver</em></td>
+        <td>de <em>vil flyve</em></td>
+    </tr>
+</table>
+
+</body>
+</html>
