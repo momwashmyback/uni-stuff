@@ -1,0 +1,115 @@
+import nltk
+import collections
+import logging
+import random
+import time
+import chatterbot_corpus
+from collections import defaultdict
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ChatterBotCorpusTrainer
+
+time.clock = time.time
+logger = logging.getLogger()
+logger.setLevel(logging.CRITICAL)
+collections.Hashable = collections.abc.Hashable
+
+#2
+def markov_chain(text):
+    words = text.split(' ')
+    my_dict = defaultdict(list)
+    for current_word, next_word in zip(words[0:-1], words[1:]):
+        my_dict[current_word].append(next_word)
+    my_dict = dict(my_dict)
+    return my_dict
+
+#3
+def generate_sentence(chain, word_count):
+    current_word = random.choice(list(chain.keys()))
+    sentence = current_word.capitalize()
+    for i in range(word_count - 1):
+        next_word = random.choice(chain[current_word])
+        sentence += ' ' + next_word
+        current_word = next_word
+    sentence += '.'
+    return sentence
+
+#4
+txtfile = open(r"C:\Apps\other\PyCharm\txt\chesterton-brown.txt", "r")
+test_text = txtfile.read()
+test_dict = markov_chain(test_text)
+for word in test_dict:
+    print(word, test_dict[word])
+
+print(generate_sentence(test_dict, 16))
+
+#5-6
+from chatterbot import ChatBot
+from chatterbot.trainers import ListTrainer, ChatterBotCorpusTrainer
+
+# Create a new instance of a ChatBot
+my_bot = ChatBot(
+    name="PyBot",
+    read_only=True,
+    logic_adapters=[
+        "chatterbot.logic.BestMatch",
+        {
+            'import_path': 'chatterbot.logic.MathematicalEvaluation',
+            'threshold': 0.65
+        }
+    ]
+)
+
+# Small talk and mathematical dialogue
+small_talk = [
+    "Hallo!", "Hallo!",
+    "Hallo", "Hallo!",
+    "Guten Tag", "Guten Tag!",
+    "Wie geht's?", "Mir geht es gut, danke! Und Ihnen?",
+    "Wie geht es Ihnen?", "Mir geht es gut, danke! Und Ihnen?",
+    "Es geht", "Das ist gut zu hören!",
+    "Alles gut, und Ihnen?", "Mir geht es gut, danke!",
+    "Mir geht es gut", "Das freut mich zu hören!",
+    "Sehr gut!", "Das freut mich zu hören!",
+    "Ich fühle mich gut, danke!", "Das freut mich zu hören!",
+    "Sehr schön, freut mich das zu hören", "Danke!",
+    "Könnte besser sein", "Tut mir leid, das zu hören.",
+    "Tut mir leid :(", "Das wird schon wieder!",
+    "Wie heißen Sie?", "Ich heiße PyBot. Wie heißen Sie?",
+    "Ich heiße PyBot. Wie heißen Sie?", "Schön, Sie kennenzulernen!",
+    "Schön, Sie kennenzulernen", "Ebenfalls!",
+    "Auf Wiedersehen!", "Tschüss!",
+    "Tschüss!", "Auf Wiedersehen!"
+]
+
+math_talk_1 = ["Zeig mir den Satz des Pythagoras", "a^2 + b^2 = c^2"]
+math_talk_2 = ["Wie sieht der Kosinussatz aus?", "c^2 = a^2 + b^2 - 2*a*b*cos(gamma)"]
+math_talk_3 = ["Kannst du mir die Relativitätstheorie zeigen?", "E = mc^2"]
+math_talk_4 = ["Was ist mit dem zweiten Hauptsatz der Thermodynamik?", "dS >= 0"]
+
+# Train the bot with the dialogue lists
+list_trainer = ListTrainer(my_bot)
+for item in (small_talk, math_talk_1, math_talk_2, math_talk_3, math_talk_4):
+    list_trainer.train(item)
+
+# Train the bot with a German corpus
+corpus_trainer = ChatterBotCorpusTrainer(my_bot)
+corpus_trainer.train('chatterbot.corpus.german')
+
+def get_response(user_input):
+    response = my_bot.get_response(user_input)
+    if response.confidence < 0.5:  # Low confidence response
+        return "Stellen Sie mir bitte eine mathematische Frage."
+    return response.text
+
+# Interaction with the bot
+print("Hallo! Ich heiße PyBot. Wie heißen Sie?")
+user_name = input()
+print(f"Schön, Sie kennenzulernen, {user_name}!")
+
+for i in range(5):
+    user_input = input()
+    response = get_response(user_input)
+    print(response)
+
+print("Tschüss!")
