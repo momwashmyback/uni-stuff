@@ -1,0 +1,95 @@
+# -*- coding: utf-8 -*-
+
+from tkinter import *
+from tkinter import ttk
+from tkinter.messagebox import showinfo
+import random
+
+my_dict = {
+    "Nominativ Singular": "et bord",
+    "Genitiv Singular": "et bords / bordets",
+    "Nominativ Plural": "borde",
+    "Genitiv Plural": "bordes / bordenes"
+}
+
+main = Tk()
+main.geometry("1000x700")  # Змінено розмір вікна
+main.title("Вікторія Сторожко")
+
+tabs = ttk.Notebook(main)
+tab1 = ttk.Frame(tabs, width=1000, height=650)  # Змінено розмір вкладки 1
+tab2 = ttk.Frame(tabs, width=1000, height=650)  # Змінено розмір вкладки 2
+tabs.add(tab1, text='Загальна інформація')
+tabs.add(tab2, text='Тести')
+tabs.grid()
+
+# tab1
+info_text = (
+    "Відмінювані частини мови:\n\n"
+    "Іменники: Змінюються за родами (чоловічий, жіночий, середній), числами (однина, множина) та відмінками "
+    "(називний, родовий, давальний тощо).\n\n"
+    "Прикметники: Також змінюються за родами, числами та відмінками, відповідаючи іменникам, до яких вони відносяться.\n\n"
+    "Займенники: Змінюються за родами, числами та відмінками, а також можуть змінюватися в залежності від "
+    "відмінюваних іменників.\n\n"
+    "Дієслова: Дієслівна дієвідміна: Дієслова в данській мові можуть бути розташовані в одній з двох дієвідмін: слабкі "
+    "та силькі. Слабкі дієслова утворюють минулий час за допомогою суфікса '-ede' або '-te', тоді як силькі дієслова "
+    "мають неправильні форми минулого часу.\n\n"
+    "Числа та роди:\n\n"
+    "Роди: Данська має три роди - чоловічий, жіночий і середній. Різні частини мови відмінюються в залежності від роду.\n\n"
+    "Числа: Іменники та інші відмінювані слова можуть бути в однинах або множинах.\n\n"
+    "Відмінки: Називний, родовий, давальний тощо: Іменники та деякі інші частини мови відмінюються за відмінками, "
+    "вказуючи на різні функції слів у реченні."
+)
+
+text_widget = Text(tab1, wrap=WORD, font=("Helvetica", 16))
+text_widget.insert(1.0, info_text)
+text_widget.config(state=DISABLED)
+text_widget.pack(expand=True, fill=BOTH, padx=10, pady=10)
+
+# tab2
+# радіокнопочки
+def create_rb(options, var):
+    buttons = []
+    for i, option in enumerate(options):
+        button = Radiobutton(tab2, text=option, variable=var, value=i, font=('Arial', 12))
+        button.pack(anchor=W)
+        buttons.append(button)
+    return buttons
+
+random_key = random.choice(list(my_dict))
+question_text = f'Поставте слово flyve в особу {random_key} теперішнього часу'
+question_label = Label(tab2, text=question_text, font=('Arial', 14))
+question_label.pack(pady=10)
+
+options = list(my_dict.values())
+correct_answer = my_dict[random_key]
+options.remove(correct_answer)
+
+incorrect_options = set()
+while len(incorrect_options) < 3:
+    incorrect_option = random.choice(options)
+    if incorrect_option != correct_answer:
+        incorrect_options.add(incorrect_option)
+
+options = list(incorrect_options)
+options.append(correct_answer)
+random.shuffle(options)
+var1 = StringVar()
+create_rb(options, var1)
+
+# кнопочка відповісти
+button = Button(tab2)
+button.configure(text="Відповісти")
+button.configure(font=("Arial", 16))
+
+def show_result():
+    selected = var1.get()
+    if options[int(selected)] == correct_answer:
+        showinfo(title="Результат", message="Правильна відповідь!")
+    else:
+        showinfo(title="Результат", message=f"Невірно. Правильна відповідь {correct_answer} ")
+
+button.configure(command=show_result)
+button.pack(pady=10)
+
+main.mainloop()
